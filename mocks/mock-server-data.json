@@ -1,0 +1,45 @@
+{
+  "api": {
+    "titles": [
+      "Уютная квартира в центре Парижа",
+      "Современный дом близ Кёльна",
+      "Комфортная студия в Берлине",
+      "Элитный пентхаус в Лондоне",
+      "Уютный коттедж в Амстердаме"
+    ],
+    "descriptions": [
+      "Шикарная студия в самом сердце Парижа, в пешей доступности от основных достопримечательностей.",
+      "Просторный семейный дом с садом и видом на реку.",
+      "Студия с современным интерьером и панорамными окнами.",
+      "Пентхаус с террасой и видом на город.",
+      "Коттедж с садом и всеми удобствами для семьи."
+    ],
+    "cities": ["Paris", "Cologne", "Berlin", "London", "Amsterdam"],
+    "previewImages": [
+      "https://example.com/images/paris-preview.jpg",
+      "https://example.com/images/cologne-preview.jpg",
+      "https://example.com/images/berlin-preview.jpg"
+    ],
+    "photos": [
+      "https://example.com/images/p1.jpg;https://example.com/images/p2.jpg",
+      "https://example.com/images/c1.jpg;https://example.com/images/c2.jpg"
+    ],
+    "amenities": ["Breakfast", "Fridge", "Towels", "Air conditioning", "Washer", "Laptop friendly workspace"],
+    "authors": [
+      {
+        "name": "Иван Петров",
+        "email": "ivan@example.com",
+        "avatar": "https://example.com/avatars/ivan.jpg",
+        "password": "securePass123",
+        "type": "pro"
+      },
+      {
+        "name": "Анна Смирнова",
+        "email": "anna@example.com",
+        "avatar": "https://example.com/avatars/anna.jpg",
+        "password": "strongPass456",
+        "type": "default"
+      }
+    ]
+  }
+}
