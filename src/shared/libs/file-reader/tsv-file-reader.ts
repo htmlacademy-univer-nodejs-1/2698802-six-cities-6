@@ -9,28 +9,26 @@ import {
   City,
   CoordinatesType,
   User
-} from '../../types';
+} from '../../types/index.js';
 
 export class TSVFileReader implements FileReader {
   private rawData = '';
 
-  constructor(
-    private readonly filename: string
-  ) { }
+  constructor(private readonly filename: string) {}
 
   public read(): void {
     try {
       this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
-      console.log(chalk.green(`Success with reading: ${this.filename}`));
+      console.log(chalk.green(`Успешно прочитан файл: ${this.filename}`));
     } catch (err) {
-      console.error(chalk.red(`Failed to read file: ${this.filename}`));
+      console.error(chalk.red(`Ошибка чтения файла: ${this.filename}`));
       throw err;
     }
   }
 
   public toArray(): OfferType[] {
     if (!this.rawData) {
-      throw new Error(chalk.red('File was not read'));
+      throw new Error(chalk.red('Файл не был прочитан. Вызовите метод read() перед toArray()'));
     }
 
     const lines = this.rawData
@@ -38,49 +36,80 @@ export class TSVFileReader implements FileReader {
       .filter((row) => row.trim().length > 0)
       .slice(1);
 
-    console.log(chalk.blue(`Records found: ${lines.length}`));
+    console.log(chalk.blue(`Найдено записей: ${lines.length}`));
 
-    return lines.map((line) => this.parsing(line));
+    return lines.map((line) => this.parseLine(line));
   }
 
-  private parsing(line: string): OfferType {
-    const fields = line.split('\t');
+  private parseLine(line: string): OfferType {
+    const [
+      title,
+      description,
+      publishedDateStr,
+      cityName,
+      previewImage,
+      photosStr,
+      isPremiumStr,
+      isFavoriteStr,
+      ratingStr,
+      houseTypeStr,
+      roomsStr,
+      guestsStr,
+      priceStr,
+      amenitiesStr,
+      authorName,
+      authorEmail,
+      authorAvatar,
+      authorPassword,
+      authorTypeStr,
+      commentsCountStr,
+      coordinatesStr,
+    ] = line.split('\t');
 
-    const [latitude, longitude] = fields[20].split(',').map((coord) => Number.parseFloat(coord));
+    const [latitudeStr, longitudeStr] = coordinatesStr.split(',');
+
+    const latitude = Number.parseFloat(latitudeStr);
+    const longitude = Number.parseFloat(longitudeStr);
 
     const author: User = {
-      name: fields[14]?.trim(),
-      email: fields[15]?.trim(),
-      avatar: fields[16]?.trim() || undefined,
-      password: fields[17]?.trim(),
-      type: fields[18]?.trim() as UserType
+      name: authorName?.trim() ?? '',
+      email: authorEmail?.trim() ?? '',
+      avatar: authorAvatar?.trim() || undefined,
+      password: authorPassword?.trim() ?? '',
+      type: authorTypeStr?.trim() as UserType,
     };
 
     return {
-      title: fields[0]?.trim(),
-      description: fields[1]?.trim(),
-      publishedDate: new Date(fields[2]),
+      title: title?.trim() ?? '',
+      description: description?.trim() ?? '',
+      publishedDate: new Date(publishedDateStr),
       city: {
-        name: fields[3]?.trim(),
+        name: cityName?.trim() ?? '',
         latitude,
-        longitude
+        longitude,
       } satisfies City,
-      previewImage: fields[4]?.trim(),
-      photos: fields[5]?.split(';').map((photo) => photo.trim()),
-      isPremium: fields[6]?.trim().toLowerCase() === 'true',
-      isFavorite: fields[7]?.trim().toLowerCase() === 'true',
-      rating: Number.parseFloat(fields[8]),
-      type: fields[9]?.trim() as HouseType,
-      rooms: Number.parseInt(fields[10], 10),
-      guests: Number.parseInt(fields[11], 10),
-      price: Number.parseInt(fields[12], 10),
-      amenities: fields[13]?.split(';').map((amenity) => amenity.trim() as AmenitiesType),
+      previewImage: previewImage?.trim() ?? '',
+      photos: photosStr
+        ?.split(';')
+        .map((p) => p.trim())
+        .filter(Boolean) ?? [],
+      isPremium: isPremiumStr?.trim().toLowerCase() === 'true',
+      isFavorite: isFavoriteStr?.trim().toLowerCase() === 'true',
+      rating: Number.parseFloat(ratingStr),
+      type: houseTypeStr?.trim() as HouseType,
+      rooms: Number.parseInt(roomsStr, 10),
+      guests: Number.parseInt(guestsStr, 10),
+      price: Number.parseInt(priceStr, 10),
+      amenities: amenitiesStr
+        ?.split(';')
+        .map((a) => a.trim() as AmenitiesType)
+        .filter((a) => a in AmenitiesType) ?? [],
       author,
-      commentsCount: Number.parseInt(fields[19], 10),
+      commentsCount: Number.parseInt(commentsCountStr, 10),
       coordinates: {
         latitude,
-        longitude
-      } satisfies CoordinatesType
+        longitude,
+      } satisfies CoordinatesType,
     };
   }
 }
