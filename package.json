@@ -14,7 +14,8 @@
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
-    "ts": "ts-node"
+    "ts": "ts-node",
+    "cli": "npm run ts -- src/main.cli.ts"
   },
   "devDependencies": {
     "@types/node": "18.16.3",
@@ -30,5 +31,8 @@
   "engines": {
     "node": "^18.0.0",
     "npm": ">=8"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2"
   }
 }
