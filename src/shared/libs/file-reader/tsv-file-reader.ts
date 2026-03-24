@@ -43,18 +43,18 @@ export class TSVFileReader extends EventEmitter implements FileReader {
         }
       }
 
-      console.log(chalk.green(`Успешно прочитан файл: ${this.filename}`));
-      console.log(chalk.blue(`Импортировано строк: ${importedRowCount}`));
+      console.log(chalk.green(`File successfully read: ${this.filename}`));
+      console.log(chalk.blue(`Imported rows: ${importedRowCount}`));
       this.emit('end', importedRowCount);
     } catch (err) {
-      console.error(chalk.red(`Ошибка чтения файла: ${this.filename}`));
+      console.error(chalk.red(`Error reading file: ${this.filename}`));
       throw err;
     }
   }
 
   public toArray(): OfferType[] {
     if (!this.rawData) {
-      throw new Error(chalk.red('Файл не был прочитан. Вызовите метод read() перед toArray()'));
+      throw new Error(chalk.red('File has not been read. Call read() before toArray()'));
     }
 
     const lines = this.rawData
@@ -62,7 +62,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       .filter((row) => row.trim().length > 0)
       .slice(1);
 
-    console.log(chalk.blue(`Найдено записей: ${lines.length}`));
+    console.log(chalk.blue(`Records found: ${lines.length}`));
 
     return lines.map((line) => createOffer(line));
   }
