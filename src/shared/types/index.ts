@@ -7,5 +7,6 @@ export * from './city.type.js';
 export * from './enums/amenities.type.enum.js';
 export * from './enums/house.type.enum.js';
 export * from './enums/user.type.enum.js';
+export * from './enums/component.enum.js';
 
 export * from './mock-server-data.type.js';
