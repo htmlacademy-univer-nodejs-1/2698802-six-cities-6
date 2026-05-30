@@ -1,8 +1,10 @@
 import { Expose, Transform } from 'class-transformer';
+import { toIdString } from '../../../helpers/common.js';
 import { CITIES } from '../const/city.const.js';
 
 export class OfferPreviewRdo {
-  @Expose({ name: '_id' })
+  @Expose()
+  @Transform(({ obj }) => toIdString(obj._id ?? obj.id))
   public id!: string;
 
   @Expose()
@@ -18,7 +20,10 @@ export class OfferPreviewRdo {
   public publishedDate!: Date;
 
   @Expose()
-  @Transform(({ obj }) => CITIES[obj.city] ?? { name: obj.city, latitude: 0, longitude: 0 })
+  @Transform(({ obj }) => {
+    const cityName = typeof obj.city === 'string' ? obj.city : obj.city?.name;
+    return CITIES[cityName] ?? { name: cityName, latitude: 0, longitude: 0 };
+  })
   public city!: { name: string; latitude: number; longitude: number };
 
   @Expose()

@@ -2,8 +2,9 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { createAPI } from '../api';
 import { rootReducer } from './root-reducer';
-import { fetchOffers, fetchFavoriteOffers, fetchUserStatus } from './action';
+import { fetchOffers, fetchUserStatus } from './action';
 import history from '../history';
+import { CITIES } from '../const';
 
 const api = createAPI();
 const store = configureStore({
@@ -19,7 +20,6 @@ const store = configureStore({
 });
 
 store.dispatch(fetchUserStatus());
-store.dispatch(fetchOffers());
-store.dispatch(fetchFavoriteOffers());
+store.dispatch(fetchOffers(CITIES[0]));
 
 export default store;

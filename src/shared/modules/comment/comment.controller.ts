@@ -59,9 +59,6 @@ export class CommentController extends BaseController {
     this.ok(res, fillDTO(CommentRdo, comments));
   }
 
-  //{ body, tokenPayload }: CreateCommentRequest,
-  //const comment = await this.commentService.create({ ...body, userId: tokenPayload.id });
-
   public async create(req: Request, res: Response): Promise<void> {
     const offerId = req.params.offerId;
     const authorId = req.tokenPayload?.id;

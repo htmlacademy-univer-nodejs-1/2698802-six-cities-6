@@ -1,17 +1,31 @@
-import {OfferType} from '../../const';
+import { CityName, Location, Type } from '../../types/types';
 
-export default class UpdateOfferDto {
+export class UpdateOfferDto {
   public title?: string;
 
   public description?: string;
 
-  public postDate?: Date;
+  public publishedDate?: string;
 
-  public image?: string;
+  public city?: CityName;
 
-  public type?: OfferType;
+  public previewImage?: string;
+
+  public photos?: string[];
+
+  public isPremium?: boolean;
+
+  public rating?: number;
+
+  public type?: Type;
+
+  public rooms?: number;
+
+  public guests?: number;
 
   public price?: number;
 
-  public categories?: string[];
+  public amenities?: string[];
+
+  public coordinates?: Location;
 }

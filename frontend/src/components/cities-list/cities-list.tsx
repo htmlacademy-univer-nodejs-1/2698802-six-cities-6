@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 
 import type { CityName } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchOffers } from '../../store/action';
 import { setCity } from '../../store/site-process/site-process';
 import City from '../city/city';
 import { CITIES } from '../../const';
@@ -14,6 +15,7 @@ const CitiesList = (): JSX.Element => {
 
   const handleCityClick = useCallback((name: CityName) => {
     dispatch(setCity(name));
+    dispatch(fetchOffers(name));
   }, [dispatch]);
 
   return (

@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { jwtVerify } from 'jose';
-import { StatusCodes } from 'http-status-codes';
 import { createSecretKey } from 'node:crypto';
 import { Middleware } from './middleware.interface.js';
-import { HttpError } from '../errors/index.js';
 import { TokenPayload } from '../../../modules/auth/index.js';
 
 function isTokenPayload(payload: unknown): payload is TokenPayload {
@@ -31,15 +29,11 @@ export class ParseTokenMiddleware implements Middleware {
 
       if (isTokenPayload(payload)) {
         req.tokenPayload = { ...payload };
-        return next();
       }
     } catch {
-
-      return next(new HttpError(
-        StatusCodes.UNAUTHORIZED,
-        'Invalid token',
-        'AuthenticateMiddleware')
-      );
+      // Просроченный или подписанный другим секретом токен не должен блокировать публичные маршруты.
     }
+
+    return next();
   }
 }

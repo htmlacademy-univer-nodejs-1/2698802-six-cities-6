@@ -19,8 +19,22 @@ export class PathTransformer {
     this.logger.info('PathTranformer created!');
   }
 
-  private hasDefaultImage(value: string) {
-    return DEFAULT_STATIC_IMAGES.includes(value);
+  private normalizeFilename(filename: string): string {
+    return filename.replace(/^\/+/, '');
+  }
+
+  private isExternalUrl(filename: string): boolean {
+    return /^https?:\/\//i.test(filename);
+  }
+
+  private isStaticResource(filename: string): boolean {
+    const normalized = this.normalizeFilename(filename);
+
+    if (DEFAULT_STATIC_IMAGES.includes(normalized)) {
+      return true;
+    }
+
+    return normalized.startsWith('img/');
   }
 
   private isStaticProperty(property: string) {
@@ -28,13 +42,18 @@ export class PathTransformer {
   }
 
   private buildResourcePath(filename: string): string {
+    if (this.isExternalUrl(filename)) {
+      return filename;
+    }
+
+    const normalized = this.normalizeFilename(filename);
     const staticPath = STATIC_FILES_ROUTE;
     const uploadPath = STATIC_UPLOAD_ROUTE;
     const serverHost = this.config.get('HOST');
     const serverPort = this.config.get('PORT');
-    const rootPath = this.hasDefaultImage(filename) ? staticPath : uploadPath;
+    const rootPath = this.isStaticResource(normalized) ? staticPath : uploadPath;
 
-    return `${getFullServerPath(serverHost, serverPort)}${rootPath}/${filename}`;
+    return `${getFullServerPath(serverHost, serverPort)}${rootPath}/${normalized}`;
   }
 
   public execute(data: Record<string, unknown>): Record<string, unknown> {

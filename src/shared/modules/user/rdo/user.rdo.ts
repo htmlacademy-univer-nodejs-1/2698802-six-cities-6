@@ -1,8 +1,10 @@
 import { Expose, Transform } from 'class-transformer';
+import { toIdString } from '../../../helpers/common.js';
 import { DEFAULT_AVATAR_FILE_NAME } from '../user.constant.js';
 
 export class UserRdo {
-  @Expose({ name: '_id' })
+  @Expose()
+  @Transform(({ obj }) => toIdString(obj._id ?? obj.id))
   public id!: string;
 
   @Expose()

@@ -1,24 +1,19 @@
-import UserDto from '../../dto/user/user.dto';
-import CategoryDto from '../../dto/category/category.dto';
+import { Location } from '../../types/types';
+import { UserRdo } from '../user/user.dto';
+import { OfferPreviewRdo } from './offer-preview.rdo';
 
-export default class OfferDto {
-  public id!: string;
-
-  public title!: string;
-
+export class OfferRdo extends OfferPreviewRdo {
   public description!: string;
 
-  public image!: string;
+  public photos!: string[];
 
-  public postDate!: string;
+  public rooms!: number;
 
-  public price!: number;
+  public guests!: number;
 
-  public type!: string;
+  public amenities!: string[];
 
-  public commentCount!: number;
+  public author!: UserRdo;
 
-  public categories!: CategoryDto[];
-
-  public user!: UserDto;
+  public coordinates!: Location;
 }

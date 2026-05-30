@@ -20,8 +20,42 @@ export function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : '';
 }
 
+export function toIdString(value: unknown): string {
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  if (value && typeof value === 'object' && 'toString' in value && typeof value.toString === 'function') {
+    return value.toString();
+  }
+
+  return '';
+}
+
+function toPlainObject(value: unknown): unknown {
+  if (value === null || value === undefined) {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => toPlainObject(item));
+  }
+
+  if (typeof value === 'object') {
+    if ('toObject' in value && typeof value.toObject === 'function') {
+      return toPlainObject(value.toObject({ virtuals: true }));
+    }
+
+    if ('toJSON' in value && typeof value.toJSON === 'function') {
+      return toPlainObject(value.toJSON());
+    }
+  }
+
+  return value;
+}
+
 export function fillDTO<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
-  return plainToInstance(someDto, plainObject, { excludeExtraneousValues: true });
+  return plainToInstance(someDto, toPlainObject(plainObject), { excludeExtraneousValues: true });
 }
 
 export function createErrorObject(errorType: ApplicationError, error: string, details: ValidationErrorField[] = []) {

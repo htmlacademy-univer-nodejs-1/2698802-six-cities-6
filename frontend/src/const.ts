@@ -1,4 +1,4 @@
-import { Offer, Location, CityName, SortName } from './types/types';
+import { Offer, Location, CityName, SortName, OfferPreview } from './types/types';
 
 export const CITIES = [
   'Paris',
@@ -26,10 +26,9 @@ export const URL_MARKER_DEFAULT = 'img/pin.svg';
 export const URL_MARKER_CURRENT = 'img/pin-active.svg';
 export const ZOOM = 13;
 
-export const MAX_COMMENTS = 50;
-export const MIN_COMMENT_LENGTH = 5;
-export const MAX_COMMENT_LENGTH = 1024;
-
+export const MAX_COMMENTS = 10;
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 300;
 
 export enum AppRoute {
   Root = '/',
@@ -45,10 +44,11 @@ export enum AppRoute {
 export enum ApiRoute {
   Offers = '/offers',
   Login = '/users/login',
+  UserStatus = '/users/login',
   Register = '/users/register',
-  Users = '/users',
-  Comments = '/offers',
-  Favorite = '/favorites',
+  Avatar = '/users/:userId/avatar',
+  Comments = '/comments',
+  Favorites = '/favorites',
   Premium = '/offers/premium',
 }
 
@@ -65,6 +65,11 @@ export enum Sorting {
   TopRated = 'Top rated first',
 }
 
+export enum UserType {
+  Pro = 'pro',
+  Default = 'default'
+}
+
 export enum StoreSlice {
   SiteData = 'SITE_DATA',
   SiteProcess = 'SITE_PROCESS',
@@ -72,11 +77,8 @@ export enum StoreSlice {
 }
 
 export enum HttpCode {
-  OK = 200,
-  CREATED = 201,
   NotFound = 404,
   NoAuth = 401,
-  CONFLICT = 409,
 }
 
 export enum SubmitStatus {
@@ -87,7 +89,7 @@ export enum SubmitStatus {
 }
 
 export const Comparator: {
-  [key in SortName]: (a: Offer, b: Offer) => number;
+  [key in SortName]: (a: Offer | OfferPreview, b: Offer | OfferPreview) => number;
 } = {
   Popular: () => 0,
   PriceIncrease: (a, b) => a.price - b.price,

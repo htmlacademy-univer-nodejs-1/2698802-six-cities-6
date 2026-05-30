@@ -1,9 +1,19 @@
-export default class UserDto {
-  public email!: string ;
+import { UserType } from '../../const';
+
+export class UserRdo {
+  public id!: string;
+
+  public name!: string;
+
+  public email!: string;
 
   public avatarPath!: string;
 
-  public firstname!: string;
+  public type!: UserType;
+}
 
-  public lastname!: string;
+export class LoggedUserRdo {
+  public email!: string;
+
+  public token!: string;
 }

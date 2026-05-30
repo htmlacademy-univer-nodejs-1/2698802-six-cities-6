@@ -1,4 +1,5 @@
 import { inject, injectable } from 'inversify';
+import { instanceToPlain } from 'class-transformer';
 import { StatusCodes } from 'http-status-codes';
 import { Response, Router } from 'express';
 import { Controller } from './controller.interface.js';
@@ -40,7 +41,8 @@ export abstract class BaseController implements Controller {
   }
 
   public send<T>(res: Response, statusCode: number, data: T): void {
-    const modifiedData = this.pathTranformer.execute(data as Record<string, unknown>);
+    const plainData = instanceToPlain(data, { excludeExtraneousValues: true });
+    const modifiedData = this.pathTranformer.execute(plainData as Record<string, unknown>);
     res
       .type(DEFAULT_CONTENT_TYPE)
       .status(statusCode)

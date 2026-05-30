@@ -16,6 +16,7 @@ const emptyOffer: NewOffer = {
   price: 0,
   goods: [],
   location: CityLocation[CITIES[0]],
+  images: [],
 };
 
 const AddOffer = (): JSX.Element | null => {

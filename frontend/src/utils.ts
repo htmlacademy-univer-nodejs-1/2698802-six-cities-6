@@ -29,4 +29,3 @@ export class Token {
     localStorage.removeItem(this._name);
   }
 }
-

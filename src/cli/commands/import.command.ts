@@ -19,6 +19,7 @@ export class ImportCommand implements Command {
   private readonly databaseClient: DatabaseClient;
   private readonly logger: Logger;
   private salt = '';
+  private importedOffersCount = 0;
 
   constructor() {
     this.logger = new ConsoleLogger();
@@ -62,6 +63,7 @@ export class ImportCommand implements Command {
         coordinates: offer.coordinates,
       });
 
+      this.importedOffersCount += 1;
       this.logger.info(`Offer "${offer.title}" imported successfully`);
     } catch (error) {
       this.logger.error('Failed to import offer', error as Error);
@@ -71,7 +73,9 @@ export class ImportCommand implements Command {
   }
 
   private onCompleteImport(count: number): void {
-    this.logger.info(`Import completed! ${count} offers were successfully imported.`);
+    this.logger.info(
+      `Import completed! Processed: ${count}, imported: ${this.importedOffersCount}.`
+    );
     this.databaseClient.disconnect().catch((err) =>
       this.logger.error('Disconnect error', err)
     );

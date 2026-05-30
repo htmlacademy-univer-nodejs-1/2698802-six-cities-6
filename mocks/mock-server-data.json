@@ -1,28 +1,34 @@
 {
   "api": {
     "titles": [
-      "Уютная квартира в центре Парижа",
-      "Современный дом близ Кёльна",
-      "Комфортная студия в Берлине",
-      "Элитный пентхаус в Лондоне",
-      "Уютный коттедж в Амстердаме"
+      "Уютная квартира в центре города",
+      "Современный семейный дом",
+      "Комфортная студия",
+      "Элитный пентхаус",
+      "Уютный коттедж",
+      "Просторные апартаменты",
+      "Стильное жильё для отдыха",
+      "Современная квартира с видом на город"
     ],
     "descriptions": [
-      "Шикарная студия в самом сердце Парижа, в пешей доступности от основных достопримечательностей.",
-      "Просторный семейный дом с садом и видом на реку.",
+      "Шикарная студия в отличном районе рядом с основными достопримечательностями.",
+      "Просторный семейный дом с садом и всеми необходимыми удобствами.",
       "Студия с современным интерьером и панорамными окнами.",
-      "Пентхаус с террасой и видом на город.",
-      "Коттедж с садом и всеми удобствами для семьи."
+      "Пентхаус с просторной террасой и великолепным видом.",
+      "Коттедж с садом и комфортными условиями для всей семьи."
     ],
-    "cities": ["Paris", "Cologne", "Berlin", "London", "Amsterdam"],
+    "cities": ["Paris", "Cologne", "Brussels", "Amsterdam", "Hamburg", "Dusseldorf"],
     "previewImages": [
-      "https://example.com/images/paris-preview.jpg",
-      "https://example.com/images/cologne-preview.jpg",
-      "https://example.com/images/berlin-preview.jpg"
+      "/img/apartment-01.jpg",
+      "/img/apartment-02.jpg",
+      "/img/apartment-03.jpg",
+      "/img/room.jpg",
+      "/img/studio-01.jpg",
+      "/img/studio-photos.jpg"
     ],
     "photos": [
-      "https://example.com/images/p1.jpg;https://example.com/images/p2.jpg",
-      "https://example.com/images/c1.jpg;https://example.com/images/c2.jpg"
+      "/img/apartment-01.jpg;/img/apartment-02.jpg;/img/apartment-03.jpg;/img/room.jpg;/img/studio-01.jpg;/img/studio-photos.jpg",
+      "/img/room-small.jpg;/img/apartment-small-03.jpg;/img/apartment-small-04.jpg;/img/apartment-01.jpg;/img/room.jpg;/img/studio-01.jpg"
     ],
     "amenities": ["Breakfast", "Fridge", "Towels", "Air conditioning", "Washer", "Laptop friendly workspace"],
     "authors": [

@@ -92,15 +92,6 @@ export class UserController extends BaseController {
     this.created(res, fillDTO(UserRdo, result));
   }
 
-  //public async login(
-  //     { body }: LoginUserRequest,
-  //     res: Response,
-  //   ): Promise<void> {
-  //     const user = await this.authService.verify(body);
-  //     const token = await this.authService.authenticate(user);
-  //     const responseData = fillDTO(LoggedUserRdo, user);
-  //     this.ok(res, Object.assign(responseData, { token }));
-
   public async login(
     { body }: LoginUserRequest,
     res: Response,

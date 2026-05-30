@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
+import { HttpCode } from './const';
 import { Token } from './utils';
 
 const BACKEND_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:4000';
@@ -16,8 +17,8 @@ export const createAPI = (): AxiosInstance => {
     (config: AxiosRequestConfig) => {
       const token = Token.get();
 
-      if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
       }
 
       return config;
@@ -26,9 +27,14 @@ export const createAPI = (): AxiosInstance => {
 
   api.interceptors.response.use(
     (response) => response,
-    (error: AxiosError) => {
+    (error: AxiosError<{ error?: string }>) => {
+      if (error.response?.status === HttpCode.NoAuth && Token.get()) {
+        Token.drop();
+      }
+
       toast.dismiss();
-      toast.warn(error.response ? error.response.data.error : error.message);
+      const message = error.response?.data?.error ?? error.message;
+      toast.warn(message);
 
       return Promise.reject(error);
     }

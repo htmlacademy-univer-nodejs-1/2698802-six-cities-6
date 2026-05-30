@@ -108,7 +108,10 @@ export class OfferController extends BaseController {
     const limitRaw = req.query.limit;
     const parsedLimit = typeof limitRaw === 'string' ? Number.parseInt(limitRaw, 10) : undefined;
     const limit = parsedLimit !== undefined && !Number.isNaN(parsedLimit) ? parsedLimit : undefined;
-    const offers = await this.offerService.find(limit, req.tokenPayload?.id);
+    const city = typeof req.query.city === 'string' && req.query.city.length > 0
+      ? req.query.city
+      : undefined;
+    const offers = await this.offerService.find(limit, req.tokenPayload?.id, city);
     this.ok(res, fillDTO(OfferPreviewRdo, offers));
   }
 

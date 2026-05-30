@@ -68,9 +68,10 @@ export class DefaultOfferService implements OfferService {
     return this.applyFavoriteFlag(offer, userId);
   }
 
-  public async find(limit = 60, userId?: string): Promise<DocumentType<OfferEntity>[]> {
+  public async find(limit = 60, userId?: string, city?: string): Promise<DocumentType<OfferEntity>[]> {
+    const filter = city ? { city } : {};
     const offers = await this.offerModel
-      .find()
+      .find(filter)
       .sort({ publishedDate: -1 })
       .limit(limit)
       .populate('author')

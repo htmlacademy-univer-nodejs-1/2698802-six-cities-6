@@ -21,13 +21,6 @@ export type User = {
   email: string;
 };
 
-export type UserAuth = Pick<User, 'email'> & { password: string };
-export type CommentAuth = Pick<Comment, 'comment' | 'rating'> &
-  Pick<Offer, 'id'>;
-export type FavoriteAuth = Pick<Offer, 'id'> & { status: 1 | 0 };
-export type UserRegister = Omit<User, 'avatarUrl'> &
-  Pick<UserAuth, 'password'> & { avatar?: File };
-
 export type Comment = {
   id: string;
   comment: string;
@@ -55,6 +48,8 @@ export type Offer = {
   maxAdults: number;
 };
 
+export type OfferPreview = Pick<Offer, 'id' | 'price' | 'rating' | 'title' | 'isPremium' | 'isFavorite' | 'previewImage' | 'type' | 'location'> & { cityName: CityName };
+
 export type NewOffer = {
   title: string;
   description: string;
@@ -67,4 +62,13 @@ export type NewOffer = {
   price: number;
   goods: string[];
   location: Location;
+  images: string[];
 };
+
+export type NewComment = Pick<Comment, 'comment' | 'rating'>;
+export type UserAuth = Pick<User, 'email'> & { password: string };
+export type CommentAuth = NewComment &
+  Pick<Offer, 'id'>;
+export type FavoriteAuth = Offer['id'];
+export type UserRegister = Omit<User, 'avatarUrl'> &
+  Pick<UserAuth, 'password'> & { avatar?: File };
